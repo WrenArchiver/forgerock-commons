@@ -233,7 +233,7 @@ public final class HttpFrameworkServlet extends HttpServlet {
             promise.thenOnRuntimeException(new RuntimeExceptionHandler() {
                 @Override
                 public void handleRuntimeException(RuntimeException e) {
-                    log("RuntimeException caught", e);
+                    LOGGER.error("RuntimeException caught", e);
                     writeResponse(request, newInternalServerError(), resp, sessionContext, sync);
                 }
             });
@@ -249,7 +249,7 @@ public final class HttpFrameworkServlet extends HttpServlet {
             // RuntimeExceptionHandler), possibly leaving a stale response in the web container :'(
             // Servlet specification indicates that it's the responsibility of the Servlet implementer to call
             // AsyncContext.complete()
-            log("Throwable caught", throwable);
+            LOGGER.error("Throwable caught", throwable);
             writeResponse(request, newInternalServerError(), resp, sessionContext, sync);
         }
 
@@ -350,7 +350,7 @@ public final class HttpFrameworkServlet extends HttpServlet {
                 response.getEntity().copyRawContentTo(servletResponse.getOutputStream());
             }
         } catch (IOException e) {
-            log("Failed to write response", e);
+            LOGGER.error("Failed to write response", e);
         } finally {
             closeSilently(response);
         }
