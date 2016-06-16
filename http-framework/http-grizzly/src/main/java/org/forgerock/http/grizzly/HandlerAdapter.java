@@ -32,6 +32,7 @@ import org.forgerock.http.Handler;
 import org.forgerock.http.HttpApplication;
 import org.forgerock.http.HttpApplicationException;
 import org.forgerock.http.io.Buffer;
+import org.forgerock.http.io.IO;
 import org.forgerock.http.routing.UriRouterContext;
 import org.forgerock.http.session.SessionContext;
 import org.forgerock.http.util.CaseInsensitiveSet;
@@ -143,9 +144,7 @@ final class HandlerAdapter extends HttpHandler {
                     }
                 }
             }
-            // response entity (if applicable)
-            // TODO does this also set content length?
-            chfResponse.getEntity().copyRawContentTo(grizzlyResponse.getOutputStream());
+            IO.stream(chfResponse.getEntity().getRawContentInputStream(), grizzlyResponse.getOutputStream());
         } catch (IOException e) {
             LOGGER.trace("Failed to write response", e);
         } finally {
