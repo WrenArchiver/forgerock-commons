@@ -42,7 +42,7 @@ import org.forgerock.json.resource.ResourceException;
 import org.forgerock.json.resource.ResourceResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import javax.annotation.Nullable;
 /**
  * Guice module for wiring the JASPI runtime.
  *
@@ -66,7 +66,7 @@ public class GuiceModule extends AbstractModule {
 
     @Provides
     AuthenticationFilter getAuthenticationFilter(Logger logger, AuditApi auditApi,
-            @Named("SessionAuthModule") AsyncServerAuthModule sessionAuthModule,
+    		@Nullable @Named("SessionAuthModule") AsyncServerAuthModule sessionAuthModule,
             @Named("AuthModules") List<AsyncServerAuthModule> authModules) {
         List<AuthenticationModuleBuilder> authModuleBuilders = new ArrayList<>();
         for (AsyncServerAuthModule authModule : authModules) {
